@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chocolate Paradise</title>
+
+ <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden; /* Disable horizontal scrolling */
+        }
+
+        header {
+            background-color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .banner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #1a1a1a;
+        }
+
+        .banner img {
+            max-width: 20%;
+            height: auto;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #bundleItems {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            margin: 10px 0;
+        }
+
+        #bundleItems li {
+            margin: 10px 0;
+        }
+
+        #totalPrice {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #ff6347;
+        }
+
+        .chocolate-image {
+            max-width: 50%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+    </style> 
+</head>
+<body>
+
+<header>
+    <h1>Chocolate Paradise</h1>
+</header>
+
+<div class="banner">
+    <img src="images/chocolate1.jpg" alt="Chocolate 1" class="chocolate-image" />
+    <img src="images/chocolate2.jpg" alt="Chocolate 2" class="chocolate-image" />
+    <img src="images/chocolate3.jpg" alt="Chocolate 3" class="chocolate-image" />
+    <!-- Add more chocolate images as needed -->
+</div>
+
+<div class="container">
+    <h2 style="color: #ff6347;">Build Your Custom Chocolate Bundle</h2>
+
+    <label for="chocolateSelect">Select Chocolate:</label>
+    <select id="chocolateSelect">
+        <option value="0">Select</option>
+        <option value="40">Kitkat - ₹40 (100g)</option>
+        <option value="100">Temptation - ₹100 (150g)</option>
+        <option value="140">Amul Dark - ₹120 (200g)</option>
+        <option value="140">Hershey's Chocolate - ₹150 (200g)</option>
+        <option value="140">Lotte Choco Pie - ₹40 (200g)</option>
+        <option value="140">Bournville  - ₹110 (200g)</option>
+        <option value="140">Ferrero Rocher - ₹540 (200g)</option>
+        <!-- Add more chocolate options as needed -->
+    </select>
+
+    <button onclick="addToBundle()">Add to Bundle</button>
+
+    <h3>Your Custom Bundle</h3>
+    <ul id="bundleItems"></ul>
+
+    <h3 id="totalPrice">Total Price: ₹0.00</h3>
+</div>
+
+<footer>
+    <p>Chocolate Paradise &copy; Jyoti Gangwar</p>
+</footer>
+
+<script>
+    let selectedItems = [];
+
+    function addToBundle() {
+        const selectElement = document.getElementById('chocolateSelect');
+        const selectedItem = {
+            name: selectElement.options[selectElement.selectedIndex].text,
+            price: parseFloat(selectElement.value)
+        };
+
+        if (selectedItem.price === 0) {
+            alert('Please select a chocolate.');
+            return;
+        }
+
+        if (selectedItems.length >= 8) {
+            alert('You cannot add more than 8 chocolates to your bundle.');
+            return;
+        }
+
+        selectedItems.push(selectedItem);
+        updateBundleList();
+        updateTotalPrice();
+    }
+
+    function updateBundleList() {
+        const bundleItemsElement = document.getElementById('bundleItems');
+        bundleItemsElement.innerHTML = '';
+
+        selectedItems.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item.name;
+            bundleItemsElement.appendChild(listItem);
+        });
+    }
+
+    function updateTotalPrice() {
+        const totalPriceElement = document.getElementById('totalPrice');
+        const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
+        totalPriceElement.textContent = `Total Price: ₹${total.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>
